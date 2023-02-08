@@ -92,9 +92,9 @@
           <configuration>
             <archive>
               <manifest>
-                <!-- public static void main() 함수가 있는 클래스 지정 -->
+                <!-- public static void main() -->
                 <mainClass>com.utime.msword.App</mainClass>
-                <!-- jar 파일 META-INF/MANIFEST.MF 에 클래스패스 정보 추가 -->
+                <!-- Add classpath information to META-INF/MANIFEST.MF -->
                 <addClasspath>true</addClasspath>
               </manifest>
             </archive>
