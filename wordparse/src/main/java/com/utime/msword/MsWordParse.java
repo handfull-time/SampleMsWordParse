@@ -263,7 +263,7 @@ public class MsWordParse {
 		    for (XWPFTableRow row : rows) {
 		    	final List<XWPFTableCell> cells = row.getTableCells();
 				for (XWPFTableCell cell : cells) {
-					final Integer width = ((BigInteger)cell.getCTTc().getTcPr().getTcW()).intValue();
+					final Integer width = ((BigInteger)cell.getCTTc().getTcPr().getTcW().getW()).intValue();
 					cellWidthList.add(width);
 				}
 		    	break;

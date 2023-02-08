@@ -10,7 +10,7 @@ public class App {
     public static void main( String[] args ) throws FileNotFoundException, IOException {
         System.out.println( "Hello World!" );
 
-        final MsWordParse msWord = new MsWordParse("");
+        final MsWordParse msWord = new MsWordParse("samplePoi.docx");
 
         final List<DocElement> docList = msWord.getDocList();
 
