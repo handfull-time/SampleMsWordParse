@@ -16,6 +16,7 @@ import org.apache.poi.xwpf.usermodel.TableRowAlign;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFPicture;
+import org.apache.poi.xwpf.usermodel.XWPFPictureData;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFSDT;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
@@ -24,6 +25,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
 
 import com.utime.msword.define.EDocAlignment;
+import com.utime.msword.define.EDocPictureType;
 import com.utime.msword.objects.DocElement;
 import com.utime.msword.objects.DocFont;
 import com.utime.msword.objects.DocImage;
@@ -116,16 +118,22 @@ public class MsWordParse {
 	                if( pictures != null && pictures.size() > 0 ) {
 	                	for( XWPFPicture picture : pictures ) {
 	                		
+							final XWPFPictureData pictureData = picture.getPictureData();
 	                		String picName = picture.getDescription();
 	                		if( picName == null || picName.length() < 1 ) {
 	                			picName = picture.getCTPicture().getNvPicPr().getCNvPr().getName();
 	                		}
 	                		
+	                		if( picName == null || picName.length() < 1 ) {
+	                			picName = pictureData.getFileName();
+	                		}
+
 	                		item = new DocImage();
 	                		final DocImage docImage = (DocImage)item;
 	                		docImage.setName( picName );
 	                		docImage.setWidth( picture.getWidth() );
-	                		docImage.setData( Base64.getEncoder().encodeToString(picture.getPictureData().getData()) );
+							docImage.setPictureType( EDocPictureType.valueOf( pictureData.getPictureTypeEnum().name() ) );
+	                		docImage.setData( Base64.getEncoder().encodeToString( pictureData.getData() ) );
 	                		
 	                		items.add( item );
 	                		

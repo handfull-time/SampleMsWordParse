@@ -1,5 +1,6 @@
 package com.utime.msword.objects;
 
+import com.utime.msword.define.EDocPictureType;
 import com.utime.msword.define.EDocType;
 
 import lombok.Data;
@@ -18,6 +19,8 @@ public class DocImage  extends AbsDocObject{
     double width;
     /** data base64 */
     String data;
+    /** picture type */
+    EDocPictureType pictureType;
     
     public DocImage() {
         super(EDocType.Image);
@@ -37,7 +40,7 @@ public class DocImage  extends AbsDocObject{
             }
         }
         
-        return "DocImage [" + (name != null ? "name=" + name + ", " : "") + "width=" + width + ", "
+        return "DocImage [" + (name != null ? "name=" + name + ", " : "") + "width=" + width + ", type=" + pictureType
                 + (data != null ? "data=" + logDt : "") + "]";
     }
     
