@@ -32,22 +32,31 @@ import com.utime.msword.objects.DocTable;
 import com.utime.msword.objects.DocText;
 import com.utime.msword.utils.DocNumLevelListMgr;
 
+/**
+ * MSWord document analysis.
+ */
 public class MsWordParse {
 
+	/**
+	 * A list of analyzed information.
+	 */
     final List<DocElement> docList = new ArrayList<>();
 
-	private final DocNumLevelListMgr numLevelListMgr = new DocNumLevelListMgr();
+	/**
+	 * Document number level management
+	 */
+	final DocNumLevelListMgr numLevelListMgr = new DocNumLevelListMgr();
 
     public MsWordParse(String fileName ) throws FileNotFoundException, IOException{
         this(new File( fileName) );
     }
 
     public MsWordParse(File file ) throws FileNotFoundException, IOException{
-        final XWPFDocument doc = new XWPFDocument( new FileInputStream(file));
+        final XWPFDocument doc = new XWPFDocument( new FileInputStream(file) );
 		
 		final Iterator<IBodyElement> itBody = doc.getBodyElementsIterator();
 		
-		this.procBodyElement(docList, itBody);
+		this.procBodyElement(this.docList, itBody);
 		
 		doc.close();
     }
@@ -56,6 +65,11 @@ public class MsWordParse {
 		return docList;
 	}
     
+	/**
+	 * MSWord document content analysis.
+	 * @param docList 
+	 * @param para
+	 */
 	private void procXWPFParagraph(List<DocElement> docList, XWPFParagraph para ) {
 
 		final DocElement docElement = new DocElement();
@@ -71,7 +85,6 @@ public class MsWordParse {
 		case RIGHT: docElement.setAlignment( EDocAlignment.RIGHT ); break;
 		default : docElement.setAlignment( EDocAlignment.LEFT ); break;
 		}
-		
 		
 		boolean isFirst = true;
 		boolean debug = false;
@@ -203,6 +216,11 @@ public class MsWordParse {
 	    }
 	}
 
+	/**
+	 * Body analysis.
+	 * @param docList
+	 * @param itBody
+	 */
     private void procBodyElement(List<DocElement> docList, Iterator<IBodyElement> itBody ) {
 		while (itBody.hasNext()) {
 			final IBodyElement body = itBody.next();
@@ -226,6 +244,11 @@ public class MsWordParse {
 		}
 	}
 	
+	/**
+	 * Table analysis.
+	 * @param docList
+	 * @param table
+	 */
 	private void procXWPFTable(List<DocElement> docList, XWPFTable table) {
 		
 		final DocElement docElement = new DocElement();
@@ -258,7 +281,7 @@ public class MsWordParse {
 	    final List<XWPFTableRow> rows = table.getRows();
 
 	    {
-	    	// 테이블의 가로 크기를 얻어 온다.
+	    	// Retrieves the width of the table.
 		    final List<Integer> cellWidthList = docTable.getCellWidthList(); 
 		    for (XWPFTableRow row : rows) {
 		    	final List<XWPFTableCell> cells = row.getTableCells();
@@ -281,16 +304,21 @@ public class MsWordParse {
 				rowList.add(cellList);
 				
 				// Iterate over the cells
+				// The table contents are document properties again, so read the Body.
 				for (XWPFTableCell cell : cells) {
 					
 					final List<IBodyElement> lst = cell.getBodyElements();
-					
 					this.procBodyElement(cellList, lst.iterator() );
 				}
 		    }
 	    }
 	}
 
+	/**
+	 * Character creation according to level.
+	 * @param para
+	 * @return
+	 */
 	private String getFrontNum( XWPFParagraph para ) {
 		String result = "";
 		if( para.getNumIlvl() == null ) {
