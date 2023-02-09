@@ -6,12 +6,10 @@ import java.util.List;
 
 import com.utime.msword.objects.DocElement;
 
-import lombok.extern.slf4j.Slf4j;
-
 public class App {
     public static void main( String[] args ) throws FileNotFoundException, IOException {
 
-        System.out.println( "Hello World!" );
+        System.out.println( "Hello MsWord Parser!" );
 
         final MsWordParse msWord = new MsWordParse("samplePoi.docx");
 
