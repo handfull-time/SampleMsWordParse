@@ -1,1 +1,3 @@
-wordparse/target/**/*.class
+wordparse/target/*
+wordparse/target/test-classes/com/utime/msword/AppTest.class
+wordparse/MsWordParser/MsWordParser.log

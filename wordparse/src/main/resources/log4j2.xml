@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="info" monitorInterval="30">
+	<Properties>
+		<!-- <Property name="LOG_FORMAT">%d{yyyy-MM-dd HH:mm:ss} %5p [%c] %m%n</Property> -->
+		<Property name="LOG_FORMAT">%d{yyyy-MM-dd HH:mm:ss:SSS} %5p [%c] %n%m%n</Property>
+		<Property name="BASE_DIR">MsWordParser</Property>
+	</Properties>
+
+	<appenders>
+		<Console name="Console" target="SYSTEM_OUT" follow="true">
+			<PatternLayout pattern="%style{%d{ISO8601}}{black} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %n%msg%n%throwable" />
+		</Console>
+
+		<RollingFile name="File"
+			fileName="${BASE_DIR}/MsWordParser.log"
+			filePattern="${BASE_DIR}/MsWordParser.%d{yyyyMMdd}.log">
+			<PatternLayout pattern="${LOG_FORMAT}" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+			<DefaultRolloverStrategy>
+				<Delete basePath="${BASE_DIR}">
+					<IfFileName glob="*.log" />
+					<IfLastModified age="200d" />
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+	</appenders>
+
+	<!-- https://log4jdbc.brunorozendo.com/ -->
+	<loggers>
+	
+		<logger name="log4jdbc.log4j2" level="off" additivity="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="File" />
+		</logger>
+
+		<root level="info">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="File" />
+		</root>
+		
+	</loggers>
+</configuration>
