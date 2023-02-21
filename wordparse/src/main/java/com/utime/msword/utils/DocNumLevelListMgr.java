@@ -64,7 +64,7 @@ public class DocNumLevelListMgr {
         
         selectLevel.increment();
         
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         final String [] sp = lvText.split("\\.");
         if( sp.length > 1 ) {
             for( DocNumLevel numLevel : subLevel) {
@@ -77,6 +77,9 @@ public class DocNumLevelListMgr {
         return sb.toString();
     }
 
+	/**
+	 * ordinal list
+	 */
 	static final String[] ordinal = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
 
 	/** 
@@ -94,10 +97,13 @@ public class DocNumLevelListMgr {
 	    }
 	}
     
+	/**
+	 * Bullet list
+	 */
 	static final String[] bullet = new String[] { "●", "■", "◆" };
 	    
 	/**
-	 * Bullet 형식
+	 * Bullet type
 	 * @param value
 	 * @return
 	 */
